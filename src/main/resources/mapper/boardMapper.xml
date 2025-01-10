@@ -4,12 +4,120 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.example.demo.mapper.BoardMapper">
-	
-	<select id="selectBoardList" resultType="com.example.demo.model.BoardListRes">
-		/* selectBoardList */
-		select *
-		from bt_tb_board
+
+	<sql id="selectBoard">
+		select
+				<if test='searchOrder != null and searchOrder != ""'>
+					<choose>
+						<when test='searchOrder == "order1"'>
+							row_number() over(order by btb.reg_dt desc) as row_num
+						</when>
+						<otherwise>
+							row_number() over(order by btb.view_cnt desc) as row_num
+						</otherwise>
+					</choose>
+				</if>
+				, btb.board_no
+				, btb.category_cd
+				, (select btcc.comm_cd_nm from bt_tb_comm_code btcc where btcc.comm_cd = btb.category_cd and btcc.grp_cd = 'CTG') as category_nm
+				, btb.title
+				, btb.cont
+				, btb.writer_nm
+				, btb.password
+				, btb.view_cnt
+				, DATE_FORMAT(btb.reg_dt, '%Y-%m-%d') as reg_dt
+				, DATE_FORMAT(btb.mod_dt, '%Y-%m-%d') as mod_dt
+				, case when datediff(now(), btb.reg_dt) <![CDATA[ <= ]]> 5 then 'Y'
+				  else 'N' end new_yn
+		from bt_tb_board btb
+		<if test='searchText != null and searchText != ""'>
+		where title like concat('%', ${searchText}, '%')
+		</if>
+	</sql>
+
+	<select id="selectBoardListCount" parameterType="com.example.demo.model.BoardReq" resultType="int">
+		/* selectBoardListCount */
+		select count(*) as cnt
+		from (
+			<include refid="selectBoard" />
+		) a
 	</select>
-	
+
+	<select id="selectBoardList" parameterType="com.example.demo.model.BoardReq" resultType="com.example.demo.model.BoardRes">
+		/* selectBoardList */
+		<include refid="selectBoard" />
+		LIMIT #{startRow}, #{endRow};
+	</select>
+
+	<select id="selectBoardDetail" parameterType="com.example.demo.model.BoardReq" resultType="com.example.demo.model.BoardRes">
+		/* selectBoardDetail */
+		select
+				  btb.board_no
+				, btb.category_cd
+				, (select btcc.comm_cd_nm from bt_tb_comm_code btcc where btcc.comm_cd = btb.category_cd and btcc.grp_cd = 'CTG') as category_nm
+				, btb.title
+				, btb.cont
+				, btb.writer_nm
+				, btb.password
+				, btb.view_cnt
+				, DATE_FORMAT(btb.reg_dt, '%Y-%m-%d') as reg_dt
+				, DATE_FORMAT(btb.mod_dt, '%Y-%m-%d') as mod_dt
+		from bt_tb_board btb
+		where btb.board_no = #{boardNo}
+	</select>
+
+	<insert id="insertBoard" parameterType="com.example.demo.model.BoardReq">
+		/* insertBoard */
+		insert into bt_tb_board
+			(
+				  category_cd
+				, title
+				, cont
+				, writer_nm
+				, password
+				, view_cnt
+				, reg_dt
+				, mod_dt
+			)
+		values
+			(
+				  #{categoryCd}
+				, #{title}
+				, #{cont}
+				, #{writerNm}
+				, #{password}
+				, 0
+				, now()
+				, now()
+			)
+	</insert>
+
+	<update id="updateBoard" parameterType="com.example.demo.model.BoardReq">
+		/* updateBoard */
+		update bt_tb_board
+		set	category_cd	= #{categoryCd}
+			, title		= #{title}
+			, cont		= #{cont}
+			, writer_nm	= #{writerNm}
+			, password	= #{password}
+			, mod_dt	= now()
+		where board_no	= #{boardNo}
+	</update>
+
+	<delete id="deleteBoard" parameterType="com.example.demo.model.BoardReq">
+		/* deleteBoard */
+		delete
+		from bt_tb_board
+		where board_no = #{boardNo}
+	</delete>
+
+	<update id="updateBoardViewCnt" parameterType="com.example.demo.model.BoardReq">
+		/* updateBoardViewCnt */
+		update bt_tb_board
+		set	  view_cnt = (select view_cnt from bt_tb_board where board_no = #{boardNo}) + 1
+			, mod_dt = now()
+		where board_no = #{boardNo}
+	</update>
+
 </mapper>
 

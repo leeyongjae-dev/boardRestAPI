@@ -3,13 +3,9 @@ package com.example.demo.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 
 @Data
-@Getter
-@Setter
-public class Board {
+public class BoardRes {
 
 	@JsonProperty("board_no")
 	private Integer board_no;
@@ -40,5 +36,11 @@ public class Board {
 
 	@JsonProperty("mod_dt")
 	private String mod_dt;
+
+	@JsonProperty("new_yn")
+	private String new_yn;
+
+	@JsonProperty("row_num")
+	private Integer row_num;
 
 }
