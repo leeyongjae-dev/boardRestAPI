@@ -7,17 +7,17 @@
 
 	<sql id="selectBoard">
 		select
+				btb.board_no
 				<if test='searchOrder != null and searchOrder != ""'>
 					<choose>
 						<when test='searchOrder == "order1"'>
-							row_number() over(order by btb.reg_dt desc) as row_num
+							, row_number() over(order by btb.reg_dt desc) as row_num
 						</when>
 						<otherwise>
-							row_number() over(order by btb.view_cnt desc) as row_num
+							, row_number() over(order by btb.view_cnt desc) as row_num
 						</otherwise>
 					</choose>
 				</if>
-				, btb.board_no
 				, btb.category_cd
 				, (select btcc.comm_cd_nm from bt_tb_comm_code btcc where btcc.comm_cd = btb.category_cd and btcc.grp_cd = 'CTG') as category_nm
 				, btb.title

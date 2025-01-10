@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 @Data
-public class BoardReq {
+public class BoardReq extends CommonBoardReq {
 
 	@JsonProperty("searchText")
 	private String searchText;
@@ -15,18 +15,6 @@ public class BoardReq {
 
 	@JsonProperty("boardNo")
 	private String boardNo;
-
-	@JsonProperty("currPage")
-	private int currPage;
-
-	@JsonProperty("rowCount")
-	private int rowCount;
-
-	@JsonProperty("startRow")
-	private Integer startRow;
-
-	@JsonProperty("endRow")
-	private int endRow;
 
 	@JsonProperty("categoryCd")
 	private String categoryCd;

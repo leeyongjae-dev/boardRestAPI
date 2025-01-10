@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.model.BoardReq;
 import com.example.demo.model.BoardRes;
-import com.example.demo.model.CommonRes;
+import com.example.demo.model.CommonBoardRes;
 import com.example.demo.service.BoardService;
 
 @RestController
@@ -32,8 +32,8 @@ public class BoardController {
 	 * @return
 	 */
 	@GetMapping(value = {"/list"})
-	public CommonRes getBoardList(BoardReq boardReq) {
-		CommonRes response = new CommonRes();
+	public CommonBoardRes getBoardList(BoardReq boardReq) {
+		CommonBoardRes response = new CommonBoardRes();
 
 		Integer resultCount = 0;
 		List<BoardRes> result = new ArrayList<BoardRes>();
@@ -52,7 +52,7 @@ public class BoardController {
 			response.setTotalCount(resultCount);
 			response.setList(result);
 		} catch (Exception e) {
-			System.out.println(e.getStackTrace());
+			System.out.println(e.getMessage());
 		}
 
 		return response;
@@ -70,7 +70,7 @@ public class BoardController {
 			// [0]. 게시판 상세 조회
 			response = boardService.selectBoardDetail(boardReq);
 		} catch (Exception e) {
-			System.out.println(e.getStackTrace());
+			System.out.println(e.getMessage());
 		}
 		return response;
 	}
@@ -87,7 +87,7 @@ public class BoardController {
 			// [0]. 게시판 등록
 			resultCnt = boardService.insertBoard(boardReq);
 		} catch (Exception e) {
-			System.out.println(e.getStackTrace());
+			System.out.println(e.getMessage());
 		}
 		return resultCnt;
 	}
@@ -104,7 +104,7 @@ public class BoardController {
 			// [0]. 게시판 수정
 			resultCnt = boardService.updateBoard(boardReq);
 		} catch (Exception e) {
-			System.out.println(e.getStackTrace());
+			System.out.println(e.getMessage());
 		}
 		return resultCnt;
 	}
@@ -122,7 +122,7 @@ public class BoardController {
 			// [0]. 게시판 삭제
 			resultCnt = boardService.deleteBoard(boardReq);
 		} catch (Exception e) {
-			System.out.println(e.getStackTrace());
+			System.out.println(e.getMessage());
 		}
 		return resultCnt;
 	}
