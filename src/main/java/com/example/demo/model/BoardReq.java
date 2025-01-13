@@ -7,6 +7,9 @@ import lombok.Data;
 @Data
 public class BoardReq extends CommonBoardReq {
 
+	@JsonProperty("searchKeyword")
+	private String searchKeyword;
+
 	@JsonProperty("searchText")
 	private String searchText;
 

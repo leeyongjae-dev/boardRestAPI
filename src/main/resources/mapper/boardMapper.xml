@@ -30,8 +30,28 @@
 				, case when datediff(now(), btb.reg_dt) <![CDATA[ <= ]]> 5 then 'Y'
 				  else 'N' end new_yn
 		from bt_tb_board btb
+		where btb.del_yn = 'N'
 		<if test='searchText != null and searchText != ""'>
-		where title like concat('%', ${searchText}, '%')
+			<if test='searchKeyword != null and searchKeyword != ""'>
+				<choose>
+					<when test='searchKeyword == "title"'>
+						and title like concat('%', ${searchText}, '%')
+					</when>
+					<when test='searchKeyword == "cont"'>
+						and cont like concat('%', ${searchText}, '%')
+					</when>
+					<otherwise>
+						and (
+							title like concat('%', ${searchText}, '%')
+							or
+							cont like concat('%', ${searchText}, '%')
+							)
+					</otherwise>
+				</choose>
+			</if>
+		</if>
+		<if test='categoryCd != null and categoryCd != ""'>
+			and category_cd = #{categoryCd}
 		</if>
 	</sql>
 

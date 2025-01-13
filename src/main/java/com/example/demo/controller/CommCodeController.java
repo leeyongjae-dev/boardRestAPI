@@ -12,8 +12,11 @@ import com.example.demo.model.CommCodeReq;
 import com.example.demo.model.CommCodeRes;
 import com.example.demo.service.CommCodeService;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @RestController
 @RequestMapping("/api/comm/code")
+@Tag(name="공통코드 API")
 public class CommCodeController {
 
 	@Autowired
