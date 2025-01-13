@@ -30,7 +30,7 @@
 				, case when datediff(now(), btb.reg_dt) <![CDATA[ <= ]]> 5 then 'Y'
 				  else 'N' end new_yn
 		from bt_tb_board btb
-		where btb.del_yn = 'N'
+		where 1 = 1
 		<if test='searchText != null and searchText != ""'>
 			<if test='searchKeyword != null and searchKeyword != ""'>
 				<choose>
