@@ -1,8 +1,9 @@
 package com.example.demo.model;
 
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 @Data
@@ -18,7 +19,7 @@ public class BoardReq extends CommonBoardReq {
 	private String searchOrder;
 
 	@JsonProperty("boardNo")
-	private String boardNo;
+	private Integer boardNo;
 
 	@JsonProperty("categoryCd")
 	private String categoryCd;
@@ -34,5 +35,8 @@ public class BoardReq extends CommonBoardReq {
 
 	@JsonProperty("password")
 	private String password;
+
+	@JsonProperty("delFileList")
+	private List<Integer> delFileList;
 
 }

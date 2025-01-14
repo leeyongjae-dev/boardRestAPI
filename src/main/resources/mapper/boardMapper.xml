@@ -29,22 +29,29 @@
 				, DATE_FORMAT(btb.mod_dt, '%Y-%m-%d') as mod_dt
 				, case when datediff(now(), btb.reg_dt) <![CDATA[ <= ]]> 5 then 'Y'
 				  else 'N' end new_yn
+				, case when (
+						select	count(*)
+						from	bt_tb_file
+						where	ref_tbl = 'bt_tb_board'
+						and		ref_key = btb.board_no
+					) <![CDATA[ > ]]> 0 then 'Y'
+				  else 'N' end file_yn
 		from bt_tb_board btb
 		where 1 = 1
 		<if test='searchText != null and searchText != ""'>
 			<if test='searchKeyword != null and searchKeyword != ""'>
 				<choose>
 					<when test='searchKeyword == "title"'>
-						and title like concat('%', ${searchText}, '%')
+						and title like concat('%', #{searchText}, '%')
 					</when>
 					<when test='searchKeyword == "cont"'>
-						and cont like concat('%', ${searchText}, '%')
+						and cont like concat('%', #{searchText}, '%')
 					</when>
 					<otherwise>
 						and (
-							title like concat('%', ${searchText}, '%')
+							title like concat('%', #{searchText}, '%')
 							or
-							cont like concat('%', ${searchText}, '%')
+							cont like concat('%', #{searchText}, '%')
 							)
 					</otherwise>
 				</choose>
@@ -86,7 +93,7 @@
 		where btb.board_no = #{boardNo}
 	</select>
 
-	<insert id="insertBoard" parameterType="com.example.demo.model.BoardReq">
+	<insert id="insertBoard" parameterType="com.example.demo.model.BoardReq" useGeneratedKeys="true" keyProperty="boardNo">
 		/* insertBoard */
 		insert into bt_tb_board
 			(

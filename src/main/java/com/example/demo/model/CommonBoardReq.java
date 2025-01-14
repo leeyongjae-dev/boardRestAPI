@@ -17,11 +17,11 @@ public class CommonBoardReq {
 	private int rowCount;
 
 	@JsonProperty("startRow")
-	@Schema(example = "1")
+	@Schema(example = "1", hidden = true)
 	private Integer startRow;
 
 	@JsonProperty("endRow")
-	@Schema(example = "10")
+	@Schema(example = "10", hidden = true)
 	private int endRow;
 
 }

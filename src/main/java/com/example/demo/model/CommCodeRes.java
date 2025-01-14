@@ -6,17 +6,17 @@ import lombok.Data;
 
 @Data
 public class CommCodeRes {
-	@JsonProperty("grp_cd")
-	private String grp_cd;
+	@JsonProperty("grpCd")
+	private String grpCd;
 
-	@JsonProperty("comm_cd")
-	private String comm_cd;
+	@JsonProperty("commCd")
+	private String commCd;
 
-	@JsonProperty("comm_cd_nm")
-	private String comm_cd_nm;
+	@JsonProperty("commCdNm")
+	private String commCdNm;
 
-	@JsonProperty("comm_cd_val")
-	private String comm_cd_val;
+	@JsonProperty("commCdVal")
+	private String commCdVal;
 
 	@JsonProperty("add1")
 	private String add1;
@@ -30,9 +30,9 @@ public class CommCodeRes {
 	@JsonProperty("ord")
 	private String ord;
 
-	@JsonProperty("del_yn")
-	private String del_yn;
+	@JsonProperty("delYn")
+	private String delYn;
 
-	@JsonProperty("reg_dt")
-	private String reg_dt;
+	@JsonProperty("regDt")
+	private String regDt;
 }

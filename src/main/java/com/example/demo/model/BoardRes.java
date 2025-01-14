@@ -1,5 +1,7 @@
 package com.example.demo.model;
 
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.Data;
@@ -7,14 +9,14 @@ import lombok.Data;
 @Data
 public class BoardRes {
 
-	@JsonProperty("board_no")
-	private Integer board_no;
+	@JsonProperty("boardNo")
+	private Integer boardNo;
 
-	@JsonProperty("category_cd")
-	private String category_cd;
+	@JsonProperty("categoryCd")
+	private String categoryCd;
 
-	@JsonProperty("category_nm")
-	private String category_nm;
+	@JsonProperty("categoryNm")
+	private String categoryNm;
 
 	@JsonProperty("title")
 	private String title;
@@ -22,25 +24,31 @@ public class BoardRes {
 	@JsonProperty("cont")
 	private String cont;
 
-	@JsonProperty("writer_nm")
-	private String writer_nm;
+	@JsonProperty("writerNm")
+	private String writerNm;
 
 	@JsonProperty("password")
 	private String password;
 
-	@JsonProperty("view_cnt")
-	private Integer view_cnt;
+	@JsonProperty("viewCnt")
+	private Integer viewCnt;
 
-	@JsonProperty("reg_dt")
-	private String reg_dt;
+	@JsonProperty("regDt")
+	private String regDt;
 
-	@JsonProperty("mod_dt")
-	private String mod_dt;
+	@JsonProperty("modDt")
+	private String modDt;
 
-	@JsonProperty("new_yn")
-	private String new_yn;
+	@JsonProperty("newYn")
+	private String newYn;
 
-	@JsonProperty("row_num")
-	private Integer row_num;
+	@JsonProperty("rowNum")
+	private Integer rowNum;
+
+	@JsonProperty("fileYn")
+	private String fileYn;
+
+	@JsonProperty("fileList")
+	List<FileDto> fileList;
 
 }
