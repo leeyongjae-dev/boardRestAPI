@@ -1,14 +1,16 @@
 package com.example.demo.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.model.FileDto;
+import com.example.demo.model.FileReq;
 import com.example.demo.service.FileService;
 
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -40,6 +42,17 @@ public class FileController {
 		} catch (Exception e) {
 			throw e;
 		}
+	}
+
+	@DeleteMapping("/delete")
+	public int deleteFileList(@RequestBody FileReq fileReq) {
+		int result = 0;
+		try {
+			result = fileService.deleteFileList(fileReq);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return result;
 	}
 
 }

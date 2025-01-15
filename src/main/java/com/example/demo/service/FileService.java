@@ -23,6 +23,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.example.demo.mapper.FileMapper;
 import com.example.demo.model.FileDto;
+import com.example.demo.model.FileReq;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -195,6 +196,30 @@ public class FileService {
 
 	public int deleteDBFile(FileDto fileDto) {
 		return fileMapper.deleteFile(fileDto);
+	}
+
+	public int deleteFileList(FileReq fileReq) {
+		int result = 0;
+
+		try {
+			List<Integer> delFileList = fileReq.getDelFileList();
+
+			if(delFileList.size() > 0) {
+				for(Integer delFileNo : delFileList) {
+					FileDto fileDto = new FileDto();
+					fileDto.setFileNo(delFileNo);
+					fileDto = this.selectFile(fileDto);
+					this.deletePhyFile(fileDto);
+
+					result += this.deleteDBFile(fileDto);
+				}
+			}
+
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+
+		return result;
 	}
 
 	/*****************************************************************************************************************************************************************************************************************************/

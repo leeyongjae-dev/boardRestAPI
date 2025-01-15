@@ -25,15 +25,15 @@
 				, btb.writer_nm
 				, btb.password
 				, btb.view_cnt
-				, DATE_FORMAT(btb.reg_dt, '%Y-%m-%d') as reg_dt
-				, DATE_FORMAT(btb.mod_dt, '%Y-%m-%d') as mod_dt
+				, DATE_FORMAT(btb.reg_dt, '%Y-%m-%d %T') as reg_dt
+				, DATE_FORMAT(btb.mod_dt, '%Y-%m-%d %T') as mod_dt
 				, case when datediff(now(), btb.reg_dt) <![CDATA[ <= ]]> 5 then 'Y'
 				  else 'N' end new_yn
 				, case when (
 						select	count(*)
 						from	bt_tb_file
 						where	ref_tbl = 'bt_tb_board'
-						and		ref_key = btb.board_no
+						and		ref_pk = btb.board_no
 					) <![CDATA[ > ]]> 0 then 'Y'
 				  else 'N' end file_yn
 		from bt_tb_board btb
@@ -87,8 +87,8 @@
 				, btb.writer_nm
 				, btb.password
 				, btb.view_cnt
-				, DATE_FORMAT(btb.reg_dt, '%Y-%m-%d') as reg_dt
-				, DATE_FORMAT(btb.mod_dt, '%Y-%m-%d') as mod_dt
+				, DATE_FORMAT(btb.reg_dt, '%Y-%m-%d %T') as reg_dt
+				, DATE_FORMAT(btb.mod_dt, '%Y-%m-%d %T') as mod_dt
 		from bt_tb_board btb
 		where btb.board_no = #{boardNo}
 	</select>
